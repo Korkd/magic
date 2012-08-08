@@ -1,0 +1,18 @@
+<%
+    import urllib
+%>
+<html>
+<head>
+<title>magic</title>
+</head>
+<body>
+% for c in cards:
+    % if c.pair is not None:
+	    <a href="card\${urllib.quote_plus(c.name + '--' + c.pair.name)}">${urllib.quote_plus(c.name)} // ${c.pair.name}</a> - ${c.set}<br>
+    % else:
+        <a href="card\${urllib.quote_plus(c.name.encode('UTF8'))}">${c.name}</a> - ${c.set}<br>
+    % endif
+% endfor
+<br>
+</body>
+</html>

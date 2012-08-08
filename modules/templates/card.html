@@ -1,0 +1,52 @@
+<%
+    import urllib
+    import os.path
+%>
+<html>
+<head>
+<title>Test</title>
+</head>
+<body>
+% if card.pair is not None:
+    <img src="..\pics\cards\${card.set}\${card.name}${card.pair.name}.full.jpg" />
+% else:
+    <img src="..\pics\cards\${card.set}\${card.name.replace(u'\xc6','AE')}.full.jpg" />
+% endif
+
+<h2>${card.name}</h2>
+% for c in card.mana:
+	${c} 
+% endfor
+<br>
+${card.type}
+% if card.subtype is not None:
+    - ${card.subtype}
+% endif
+% for a in card.abilities:
+	<li>${a}</li>
+% endfor
+
+% if power is not None and toughness is not None:
+    ${card.power}/${card.toughness}
+% endif
+
+% if card.pair is not None:
+    <h2>${card.pair.name}</h2>
+    % for c in card.pair.mana:
+        ${c}
+    % endfor
+    <br>
+    ${card.pair.type}
+    % if card.pair.subtype is not None:
+        - ${card.pair.subtype}
+    % endif
+    % for a in card.pair.abilities:
+        <li>${a}</li>
+    % endfor
+
+    % if power is not None and toughness is not None:
+        ${card.pair.power}/${card.pair.toughness}
+    % endif
+% endif
+</body>
+</html>
