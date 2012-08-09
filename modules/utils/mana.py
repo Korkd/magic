@@ -35,8 +35,10 @@ def CreateManaSymbol(color, dimensions):
         elif not color.isdigit():
             d_usr.pieslice((x-r, y-r, x+r, y+r), 135, -45, fill=colors[color[0] if color[0].isalpha() else "b"])
             d_usr.pieslice((x-r, y-r, x+r, y+r), -45, 135, fill=colors[color[1] if color[1].isalpha() else "b"])
+    elif color == "q":
+        d_usr.ellipse((x-r, y-r, x+r, y+r), fill=(0,0,0))
     else:
-        d_usr.ellipse((x-r, y-r, x+r, y+r), fill=colors["b" if color == "x" else color])
+        d_usr.ellipse((x-r, y-r, x+r, y+r), fill=colors["b" if color == "x" or color == "t" else color])
     
     if len(color) is 2:
         if color.isdigit():
@@ -52,14 +54,17 @@ def CreateManaSymbol(color, dimensions):
             pos = (pos[0]+360, pos[1]+360)
             d_usr.text(pos, color[1],(0,0,0), font=usr_font)
     else:
+        textColor = (0,0,0)
         if color == 'b':
             pos = (pos[0]+10, pos[1])
-        d_usr.text(pos, color,(0,0,0), font=usr_font)
+        if color == "q":
+            textColor = (255,255,255)
+        d_usr.text(pos, color, textColor, font=usr_font)
     img_resized = image.resize((dimensions,dimensions), Image.ANTIALIAS)
     img_resized.save("D:\web\magic\pics\symbols\\"+color.upper()+".png")
 
 
-#CreateManaSymbol("W", 100);
+
 #CreateManaSymbol("B", 100);
 #CreateManaSymbol("R", 100);
 #CreateManaSymbol("G", 100);

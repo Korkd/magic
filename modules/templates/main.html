@@ -12,7 +12,23 @@
 <body>
 % for c in cards:
     % if c.pair is not None:
-	    <a href="card\${urllib.quote_plus(c.name + '--' + c.pair.name)}">${c.name} // ${c.pair.name}</a> - ${c.set}
+	    <a href="card\${urllib.quote_plus(c.name + '--' + c.pair.name)}">${c.name} // ${c.pair.name}</a> - ${c.set} -
+        % for ca in c.mana:
+            % if not os.path.isfile(p + str(ca) + ".png"):
+                <% mana.CreateManaSymbol(str(ca), 18) %>
+            % endif
+            <img src="${p}${str(ca)}.png" />
+        % endfor
+        //
+        % for ca in c.pair.mana:
+            % if not os.path.isfile(p + str(ca) + ".png"):
+                <% mana.CreateManaSymbol(str(ca), 18) %>
+            % endif
+            <img src="${p}${str(ca)}.png" />
+        % endfor
+        <br>
+    % elif c.flip is not None:
+        <a href="card\${urllib.quote_plus(c.name)}">${c.name} (${c.flip["name"]})</a> - ${c.set} -
         % for ca in c.mana:
             % if not os.path.isfile(p + str(ca) + ".png"):
                 <% mana.CreateManaSymbol(str(ca), 18) %>

@@ -1,4 +1,6 @@
 # -*- coding: UTF-8 -*-
+import re
+
 class Card:
     def __init__(self, card):
         self.name = card['_id']
@@ -23,7 +25,7 @@ class Card:
     
     def Abilities(self, card):
         ability = []
-        if card is not None:
+        if card:
             for ab in card:
                 for a in ab.encode('utf-8', 'replace').split('£'):
                     temp = a.replace('#_#_', '<i>')
@@ -35,6 +37,20 @@ class Card:
             ability.append("")
 
         return ability
+
+    def displayAbilities(self):
+        result = []
+        for a in self.abilities:
+            symbols = re.findall('{[a-zA-Z0-9]+}', a)
+            if len(symbols) != 0:
+                for x in range(len(symbols)):
+                    symbols[x] = "<img class=\"manasymbol\" src=\"../pics/symbols/"+symbols[x][1:-1]+".png\" />"
+                result.append(re.sub('{[a-zA-Z0-9]+}', lambda match: symbols.pop(0), a))
+            else:
+                result.append(a)
+
+        return result
+
 
     def Mana(self, cardMana):
         manaNum = {"W": 0, "U": 1, "B": 2, "R": 3, "G": 4}

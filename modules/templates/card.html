@@ -3,9 +3,83 @@
     import os.path
     from utils import mana
     p = "..\pics\symbols\\"
+    card.displayAbilities()
 %>
 <html>
 <head>
+<style type="text/css">
+
+    img {
+        margin: 0px 0px -3px 0px;
+        padding: 0px 0px 0px 0px
+    }
+
+    img.manasymbol {
+        margin: 0px 0px -3px 0px;
+        padding: 0px 0px 0px 0px;
+        height: 15px;
+        width: 15px
+    }
+    @font-face {
+        font-family: MPlantin;
+        src: url('../modules/templates/MPlantin.ttf')
+    }
+    @font-face {
+        font-family: MatrixBold;
+        src: url('../modules/templates/MatrixBold.ttf')
+    }
+    #text {
+        float:left;
+        width: 275px;
+        font-family: MPlantin;
+    }
+    li {
+        clear: both;
+        list-style: none;
+        line-height: 1.1em;
+        padding: 0px 0px 0px 0px;
+        margin: 5px 0px 5px 0px;
+    }
+    h2 {
+        font-family: MatrixBold;
+        padding: 0px 0px 0px 0px;
+        margin: 5px 0px 5px 0px;
+    }
+    h5 {
+        font-weight: normal;
+        line-height: 1.1em;
+        padding: 0px 0px 0px 0px;
+        margin: 10px 0px 5px 0px;
+    }
+    .rarity {
+        float: right;
+    }
+    .type {
+        font-family: MatrixBold;
+        float:left
+    }
+    .manacost {
+        margin: 0px 0px 0px 0px;
+        padding: 0px 0px 0px 0px;
+        float: right;
+        display: inline;
+    }
+
+    .manacost img {
+        margin: 0px 0px -2px -5px;
+    }
+
+    #powtough {
+        text-align: right;
+        width: 100%;
+        font-size: 1.25em;
+    }
+
+    #card {
+        display: inline;
+        margin: 0px 0px 0px 20px;
+    }
+</style>
 <title>Test</title>
 <script type="text/javascript" src="../modules/templates/jquery.js"></script>
 <script type="text/javascript" src="../modules/templates/jquery.rotate.js"></script>
@@ -17,32 +91,47 @@
 </head>
 <body>
 % if card.pair is not None:
-    <img src="..\pics\cards\${card.set}\${card.name}${card.pair.name}.full.jpg" />
+    <img id="card" src="..\pics\cards\${card.set}\${card.name}${card.pair.name}.full.jpg" />
 % elif card.flip is not None:
-    <img src="..\pics\cards\${card.set}\${card.name.replace(u'\xc6','AE')}.full.jpg" />
-    <img src="..\pics\cards\${card.set}\${card.name.replace(u'\xc6','AE')}.full.jpg" id="flip" />
+    <img id="card" src="..\pics\cards\${card.set}\${card.name.replace(u'\xc6','AE')}.full.jpg" />
+    <img id="flip" src="..\pics\cards\${card.set}\${card.name.replace(u'\xc6','AE')}.full.jpg" />
 % else:
-    <img src="..\pics\cards\${card.set}\${card.name.replace(u'\xc6','AE')}.full.jpg" />
+    <img id="card" src="..\pics\cards\${card.set}\${card.name.replace(u'\xc6','AE')}.full.jpg" />
 % endif
-
-<h2>${card.name}</h2>
+<div id="text">
+<h2>${card.name}
+    <div class="manacost">
 % for c in card.mana:
     % if not os.path.isfile(p + str(c) + ".png"):
        <% mana.CreateManaSymbol(str(c), 18) %>
     % endif
     <img src="${p}${str(c)}.png" />
 % endfor
-<br>
+</div>
+</h2>
+<div class="type">
 ${card.type}
 % if card.subtype is not None:
     - ${card.subtype}
 % endif
-% for a in card.abilities:
+</div>
+<div class="rarity">
+    ${card.rarity}
+</div>
+% for a in card.displayAbilities():
 	<li>${a}</li>
 % endfor
-
-% if power is not None and toughness is not None:
+% if card.flavor:
+<%
+    flavor = card.flavor.replace('#_', '<i>')
+    flavor = flavor.replace('_#', '</i>')
+%>
+<h5>${flavor}</h5>
+% endif
+% if card.power is not None and card.toughness is not None:
+    <div id="powtough">
     ${card.power}/${card.toughness}
+    </div>
 % endif
 
 % if card.pair is not None:
@@ -63,7 +152,9 @@ ${card.type}
     % endfor
 
     % if power is not None and toughness is not None:
+        <div id="powtough">
         ${card.pair.power}/${card.pair.toughness}
+        </div>
     % endif
 % endif
 
@@ -78,8 +169,11 @@ ${card.type}
     % endfor
 
     % if power is not None and toughness is not None:
-    ${card.flip["power"]}/${card.flip["toughness"]}
+        <div id="powtough">
+        ${card.flip["power"]}/${card.flip["toughness"]}
+        </div>
     % endif
 % endif
+</div>
 </body>
 </html>

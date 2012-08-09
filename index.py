@@ -17,6 +17,8 @@ connection = pymongo.Connection('localhost', 27017)
 db = connection.magic
 cards = db.cards
 
+name = "Tok-Tok, Volcano Born"
+
 allCards = cards.find()
 
 cardList = []
