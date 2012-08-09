@@ -56,7 +56,7 @@ def CreateManaSymbol(color, dimensions):
             pos = (pos[0]+10, pos[1])
         d_usr.text(pos, color,(0,0,0), font=usr_font)
     img_resized = image.resize((dimensions,dimensions), Image.ANTIALIAS)
-    img_resized.save(color.upper()+".png")
+    img_resized.save("..\pics\symbols\\"+color.upper()+".png")
 
 
 #CreateManaSymbol("W", 100);

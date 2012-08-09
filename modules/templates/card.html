@@ -1,6 +1,8 @@
 <%
     import urllib
     import os.path
+    from utils import mana
+    p = "..\pics\symbols\\"
 %>
 <html>
 <head>
@@ -15,7 +17,10 @@
 
 <h2>${card.name}</h2>
 % for c in card.mana:
-	${c} 
+    % if not os.path.isfile(p + str(c) + ".png"):
+       mana.CreateManaSymbol(str(c), 40)
+    % endif
+    <img src="${p}${str(c)}.png" />
 % endfor
 <br>
 ${card.type}
@@ -32,8 +37,11 @@ ${card.type}
 
 % if card.pair is not None:
     <h2>${card.pair.name}</h2>
-    % for c in card.pair.mana:
-        ${c}
+    % for c in card.mana:
+        % if not os.path.isfile(p + str(c) + ".png"):
+            mana.CreateManaSymbol(str(c), 40)
+        % endif
+        <img src="${p}${str(c)}.png" />
     % endfor
     <br>
     ${card.pair.type}
