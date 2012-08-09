@@ -18,7 +18,7 @@
 <h2>${card.name}</h2>
 % for c in card.mana:
     % if not os.path.isfile(p + str(c) + ".png"):
-       mana.CreateManaSymbol(str(c), 40)
+       <% mana.CreateManaSymbol(str(c), 20) %>
     % endif
     <img src="${p}${str(c)}.png" />
 % endfor
@@ -37,9 +37,9 @@ ${card.type}
 
 % if card.pair is not None:
     <h2>${card.pair.name}</h2>
-    % for c in card.mana:
+    % for c in card.pair.mana:
         % if not os.path.isfile(p + str(c) + ".png"):
-            mana.CreateManaSymbol(str(c), 40)
+            <% mana.CreateManaSymbol(str(c), 20) %>
         % endif
         <img src="${p}${str(c)}.png" />
     % endfor
