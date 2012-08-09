@@ -23,14 +23,15 @@ cardList = []
 foundCards = []
 
 for c in allCards:
-    if c not in foundCards:
+    if c["_id"] not in foundCards:
         card = Card(c)
         if c["pair"] is not None:
             otherCard = cards.find_one({"_id": c["pair"]})
-            foundCards.append(otherCard)
             card.assignPair(Card(otherCard))
+            foundCards.append(otherCard["_id"])
 
         cardList.append(card)
+
 
 try:
     template = Template(filename='modules\\templates\main.html')

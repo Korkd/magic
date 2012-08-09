@@ -19,7 +19,7 @@ class Card:
         self.tags = None
         self.back = None
         self.pair = None
-        self.test = None
+        self.flip = card['flip']
     
     def Abilities(self, card):
         ability = []

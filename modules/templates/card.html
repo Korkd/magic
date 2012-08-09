@@ -7,18 +7,28 @@
 <html>
 <head>
 <title>Test</title>
+<script type="text/javascript" src="../modules/templates/jquery.js"></script>
+<script type="text/javascript" src="../modules/templates/jquery.rotate.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#flip").rotate(180);
+    });
+</script>
 </head>
 <body>
 % if card.pair is not None:
     <img src="..\pics\cards\${card.set}\${card.name}${card.pair.name}.full.jpg" />
-% else:
+% elif card.flip is not None:
     <img src="..\pics\cards\${card.set}\${card.name.replace(u'\xc6','AE')}.full.jpg" />
+    <img src="..\pics\cards\${card.set}\${card.name.replace(u'\xc6','AE')}.full.jpg" id="flip" />
+% else:
+    <img src="..\pics\cards\${card.set}\${card.name.replace(u'\xc6','AE')}.full.jpg" id="flip" />
 % endif
 
 <h2>${card.name}</h2>
 % for c in card.mana:
     % if not os.path.isfile(p + str(c) + ".png"):
-       <% mana.CreateManaSymbol(str(c), 20) %>
+       <% mana.CreateManaSymbol(str(c), 18) %>
     % endif
     <img src="${p}${str(c)}.png" />
 % endfor
@@ -39,7 +49,7 @@ ${card.type}
     <h2>${card.pair.name}</h2>
     % for c in card.pair.mana:
         % if not os.path.isfile(p + str(c) + ".png"):
-            <% mana.CreateManaSymbol(str(c), 20) %>
+            <% mana.CreateManaSymbol(str(c), 18) %>
         % endif
         <img src="${p}${str(c)}.png" />
     % endfor
@@ -54,6 +64,21 @@ ${card.type}
 
     % if power is not None and toughness is not None:
         ${card.pair.power}/${card.pair.toughness}
+    % endif
+% endif
+
+% if card.flip is not None:
+    <h2>${card.flip["name"]}</h2>
+    ${card.flip["type"]}
+    % if card.flip["subtype"] is not None:
+        - ${card.flip["subtype"]}
+    % endif
+    % for a in card.flip["abilities"]:
+        <li>${a}</li>
+    % endfor
+
+    % if power is not None and toughness is not None:
+    ${card.flip["power"]}/${card.flip["toughness"]}
     % endif
 % endif
 </body>
